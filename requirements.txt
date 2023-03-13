@@ -1,0 +1,7 @@
+tensorflow
+opencv-python
+# Install Tesseract OCR First on User
+pytesseract
+imutils
+numpy
+matplotlib
