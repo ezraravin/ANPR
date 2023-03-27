@@ -24,15 +24,15 @@ def get_detections(img, net, paramInputWidth, paramInputHeight):
     
     return input_image, detections
 
-def non_maximum_supression(input_image, detections, ):
+def non_maximum_supression(input_image, detections, paramInputWidth, paramInputHeight):
 # FILTER DETECTIONS BASED ON CONFIDENCE AND PROBABILIY SCORE
 # center x, center y, w , h, conf, proba
     boxes = []
     confidences = []
 
     image_w, image_h = input_image.shape[:2]
-    x_factor = image_w/INPUT_WIDTH
-    y_factor = image_h/INPUT_HEIGHT
+    x_factor = image_w/paramInputWidth
+    y_factor = image_h/paramInputHeight
 
     for i in range(len(detections)):
         row = detections[i]
@@ -57,17 +57,17 @@ def non_maximum_supression(input_image, detections, ):
     index = np.array(cv2.dnn.NMSBoxes(boxes_np,confidences_np,0.25,0.45)).flatten()
     return boxes_np, confidences_np, index
 
-def drawings(image,boxes_np,confidences_np,index):
+def drawings(image, boxes_np, confidences_np, index):
 # drawings
     for ind in index:
         x,y,w,h =  boxes_np[ind]
         bb_conf = confidences_np[ind]
         conf_text = 'plate: {:.0f}%'.format(bb_conf*100)
-        license_text = extract_text(image,boxes_np[ind])
+        # license_text = extract_text(image,boxes_np[ind])
     
         cv2.rectangle(image,(x,y),(x+w,y+h),(255,0,255),2)
         cv2.rectangle(image,(x,y-30),(x+w,y),(255,0,255),-1)
         cv2.rectangle(image,(x,y+h),(x+w,y+h+30),(0,0,0),-1)
         cv2.putText(image,conf_text,(x,y-10),cv2.FONT_HERSHEY_SIMPLEX,0.7,(255,255,255),1)
-        cv2.putText(image,license_text,(x,y+h+27),cv2.FONT_HERSHEY_SIMPLEX,0.7,(0,255,0),1)
+        # cv2.putText(image,license_text,(x,y+h+27),cv2.FONT_HERSHEY_SIMPLEX,0.7,(0,255,0),1)
     return image
