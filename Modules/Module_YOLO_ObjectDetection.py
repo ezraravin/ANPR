@@ -3,9 +3,10 @@ import numpy as np
 
 # LOAD YOLO MODEL
 def YOLO_LoadModel(paramYOLOModelFilePath):
-    net = cv2.dnn.readNetFromONNX(paramYOLOModelFilePath)
-    net.setPreferableBackend(cv2.dnn.DNN_BACKEND_OPENCV)
-    net.setPreferableTarget(cv2.dnn.DNN_TARGET_CPU)
+    neuralNetwork = cv2.dnn.readNetFromONNX(paramYOLOModelFilePath)
+    neuralNetwork.setPreferableBackend(cv2.dnn.DNN_BACKEND_OPENCV)
+    neuralNetwork.setPreferableTarget(cv2.dnn.DNN_TARGET_CPU)
+    return neuralNetwork
 
 def get_detections(img, net, paramInputWidth, paramInputHeight):
     # CONVERT IMAGE TO YOLO FORMAT
